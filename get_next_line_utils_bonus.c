@@ -38,10 +38,8 @@ char	*join_and_free(char *stash, char *buffer)
 {
 	char	*result;
 
-	// Handle case where stash is NULL (first call)
-	if(!stash)
+	if (!stash)
 		return (ft_strdup(buffer));
-	
 	result = ft_strjoin(stash, buffer);
 	free(stash);
 	return (result);

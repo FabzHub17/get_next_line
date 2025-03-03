@@ -1,22 +1,22 @@
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
+# include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <limits.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10000000
 # endif
 
-char *get_next_line(int fd);
-char *read_to_buffer(int fd, char *stash);
-char *extract_line(char *stash);
-char *update_buffer(char *stash);
+char	*get_next_line(int fd);
+char	*read_to_buffer(int fd, char *stash);
+char	*extract_line(char *stash);
+char	*update_buffer(char *stash);
 
 size_t	ft_strlen(const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
-char	*join_and_free(char *stash, char *buffer);  
+char	*join_and_free(char *stash, char *buffer);
 char	*ft_strdup(const char *s);
 char	*ft_strchr(const char *s, int c);
 #endif
