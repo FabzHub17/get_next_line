@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tvithara <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/04 19:34:42 by tvithara          #+#    #+#             */
+/*   Updated: 2025/03/04 19:34:46 by tvithara         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 size_t	ft_strlen(const char *str)
@@ -10,57 +22,32 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	size_t	total_len;
-	char	*joined_str;
-	size_t	i;
-	size_t	j;
+	int		sizetotal;
+	char	*res;
+	int		i;
+	int		j;
 
-	i = 0;
-	j = 0;
-	if (!s1 || !s2)
+	if (!s1)
+		s1 = ft_calloc(1, sizeof(char));
+	if (!s2)
 		return (NULL);
-	total_len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	joined_str = malloc(total_len * sizeof(char));
-	if (!joined_str)
-		return (NULL);
-	while (s1[i])
-		joined_str[j++] = s1[i++];
 	i = 0;
-	while (s2[i])
-		joined_str[j++] = s2[i++];
-	joined_str[j] = '\0';
-	return (joined_str);
-}
-
-char	*join_and_free(char *stash, char *buffer)
-{
-	char	*result;
-
-	if (!stash)
-		return (ft_strdup(buffer));
-	result = ft_strjoin(stash, buffer);
-	free(stash);
-	return (result);
-}
-
-char	*ft_strdup(const char *s)
-{
-	char	*ptr;
-	size_t	i;
-
-	i = 0;
-	ptr = malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (!ptr)
+	sizetotal = ft_strlen(s1) + ft_strlen(s2);
+	res = malloc(sizeof(char) * (sizetotal + 1));
+	if (!res)
 		return (NULL);
-	while (s[i] != '\0')
+	while (s1[i] != 0)
 	{
-		ptr[i] = s[i];
+		res[i] = s1[i];
 		i++;
 	}
-	ptr[i] = '\0';
-	return (ptr);
+	j = 0;
+	while (s2[j] != 0)
+		res[i++] = s2[j++];
+	res[sizetotal] = 0;
+	return (res);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -77,4 +64,29 @@ char	*ft_strchr(const char *s, int c)
 	if ((char)c == '\0')
 		return (ptr);
 	return (NULL);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	char	*str;
+	size_t	i;
+
+	str = (char *)s;
+	i = 0;
+	while (i < n)
+	{
+		str[i] = '\0';
+		i++;
+	}
+}
+
+void	*ft_calloc(size_t elementCount, size_t elementSize)
+{
+	char	*res;
+
+	res = malloc(elementSize * elementCount);
+	if (!res)
+		return (NULL);
+	ft_bzero(res, elementSize * elementCount);
+	return (res);
 }

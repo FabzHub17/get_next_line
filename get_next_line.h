@@ -1,7 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tvithara <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/04 19:34:25 by tvithara          #+#    #+#             */
+/*   Updated: 2025/03/04 19:34:28 by tvithara         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# include <stddef.h>
 # include <stdlib.h>
+# include <sys/types.h>
+# include <sys/uio.h>
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
@@ -9,13 +24,13 @@
 # endif
 
 char	*get_next_line(int fd);
+char	*join_and_free(char *buffer, char *buf);
 char	*read_to_buffer(int fd, char *stash);
 char	*extract_line(char *stash);
 char	*update_buffer(char *stash);
 
 size_t	ft_strlen(const char *str);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*join_and_free(char *stash, char *buffer);
-char	*ft_strdup(const char *s);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
+void	*ft_calloc(size_t elementCount, size_t elementSize);
 #endif
