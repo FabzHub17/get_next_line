@@ -12,15 +12,13 @@
 
 #include "get_next_line_bonus.h"
 
-char	*join_and_free(char *buffer, char *buf);
-
 char	*get_next_line(int fd)
 {
 	static char	*stash[FD_LIMIT];
 	char		*line;
 
 	line = NULL;
-	if (fd < 0 || fd >= FD_LIMIT || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || fd >= FD_LIMIT || BUFFER_SIZE <= 0 )
 		return (NULL);
 	stash[fd] = read_to_buffer(fd, stash[fd]);
 	if (!stash[fd])
@@ -33,14 +31,11 @@ char	*get_next_line(int fd)
 char	*read_to_buffer(int fd, char *stash)
 {
 	char	*buffer;
-	int		bytes_read;
+	ssize_t	bytes_read;
 
-	if (!stash)
-	{
-		stash = malloc(1 * sizeof(char));
-		stash[0] = '\0';
-	}
-	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if(!buffer)
+		return (NULL);
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
@@ -51,23 +46,23 @@ char	*read_to_buffer(int fd, char *stash)
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
-		stash = join_and_free(stash, buffer);
-		if (ft_strchr(buffer, '\n'))
+		stash = ft_strjoin(stash, buffer);
+		if (ft_strchr(stash, '\n'))
 			break ;
 	}
 	free(buffer);
 	return (stash);
-}
+}  
 
 char	*extract_line(char *stash)
 {
 	char	*line;
-	int		i;
+	ssize_t	i;
 
 	if (!stash || stash[0] == '\0')
 		return (NULL);
 	i = 0;
-	while (stash[i] != '\n' && stash[i] != '\0')
+	while (stash[i] != '\0' && stash[i] != '\n')
 		i++;
 	line = ft_calloc((i + 2), sizeof(char));
 	if (!line)
@@ -78,7 +73,7 @@ char	*extract_line(char *stash)
 		line[i] = stash[i];
 		i++;
 	}
-	if (stash[i] && stash[i] == '\n')
+	if (stash[i])
 		line[i++] = '\n';
 	return (line);
 }
@@ -90,6 +85,7 @@ char	*update_buffer(char *stash)
 	int		j;
 
 	i = 0;
+	
 	while (stash[i] != '\n' && stash[i] != '\0')
 		i++;
 	if (!stash[i])
@@ -108,14 +104,10 @@ char	*update_buffer(char *stash)
 	while (stash[i] != '\0')
 		updated_stash[j++] = stash[i++];
 	free(stash);
+	if (!updated_stash[0])
+	{
+		free(updated_stash);
+		return (NULL);
+	}
 	return (updated_stash);
-}
-
-char	*join_and_free(char *buffer, char *buf)
-{
-	char	*temp;
-
-	temp = ft_strjoin(buffer, buf);
-	free(buffer);
-	return (temp);
 }

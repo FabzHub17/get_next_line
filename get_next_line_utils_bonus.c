@@ -12,12 +12,14 @@
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(char *str)
 {
 	size_t	i;
 
+	if (!str)
+		return (0);
 	i = 0;
-	while (str[i] != '\0')
+	while (str[i])
 		i++;
 	return (i);
 }
@@ -29,8 +31,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	if (!s1)
-		s1 = ft_calloc(1, sizeof(char));
+	 if (!s1)
+		s1 = ft_calloc(1, sizeof(char)); 
 	if (!s2)
 		return (NULL);
 	i = 0;
@@ -47,22 +49,25 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[j] != 0)
 		res[i++] = s2[j++];
 	res[sizetotal] = 0;
+	free(s1);
 	return (res);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *str, int c)
 {
-	char	*ptr;
+	size_t	i;
 
-	ptr = (char *)s;
-	while (*ptr)
+	if (!str)
+		return(NULL);
+	i = 0;
+	while (str[i])
 	{
-		if (*ptr == (char)c)
-			return (ptr);
-		ptr++;
+		if (str[i] == (char)c)
+			return ((char *)&str[i]);
+		i++;	
 	}
 	if ((char)c == '\0')
-		return (ptr);
+		return ((char *)&str[i]);
 	return (NULL);
 }
 
