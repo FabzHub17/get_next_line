@@ -104,10 +104,5 @@ char	*update_buffer(char *stash)
 	while (stash[i] != '\0')
 		updated_stash[j++] = stash[i++];
 	free(stash);
-	if (!updated_stash[0])
-	{
-		free(updated_stash);
-		return (NULL);
-	}
 	return (updated_stash);
 }
